@@ -36,6 +36,8 @@
 #define COMM_ENABLE_BIT BIT4
 #define COMM_RESULT_BIT BIT2
 
+// derived from the calculation in mbus-converter.ods
+// assumes a 25Ohm shunt resistor and a 10mA swing
 #define SPACE_MARK_THRESHOLD 100
 
 
