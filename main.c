@@ -22,19 +22,24 @@
  * low the COMM_RESULT_BIT is set to low.
  */
 
+
+
 #define DEBUG
+
+
+// ADC Channel 3: P1.3
 
 #define DEBUG_PORT P1OUT
 #define DEBUG_PORT_DIR P1DIR
-#define DEBUG_IDLE_BIT BIT7
-#define DEBUG_ADC_BIT BIT6
+#define DEBUG_IDLE_BIT BIT7          // P1.7
+#define DEBUG_ADC_BIT BIT6           // P1.6
 
 #define COMM_PORT_OUT P2OUT
 #define COMM_PORT_IN P2IN
 #define COMM_PORT_DIR P2DIR
-#define COMM_SAMPLE_HOLD_BIT BIT3
-#define COMM_ENABLE_BIT BIT4
-#define COMM_RESULT_BIT BIT2
+#define COMM_RESULT_BIT BIT2         // P2.2
+#define COMM_SAMPLE_HOLD_BIT BIT3    // P2.3
+#define COMM_ENABLE_BIT BIT4         // P2.4
 
 // derived from the calculation in mbus-converter.ods
 // assumes a 25Ohm shunt resistor and a 10mA swing
