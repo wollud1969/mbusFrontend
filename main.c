@@ -4,6 +4,26 @@
 #include <stdbool.h>
 
 
+/*
+ * DEBUG_IDLE_BIT is toggled each cycle through the idle loop.
+ * DEBUG_ADC_BIT is toggled each time the ADC interrupt is fired.
+ * 
+ * When the COMM_SAMPLE_HOLD_BIT is pulled to high, the next
+ * conversion result from the ADC is saved and held until the 
+ * COMM_SAMPLE_HOLD_BIT goes to low again.
+ * 
+ * When the COMM_ENABLE_BIT is pulled to high and an earlier ADC value 
+ * is currently held, it is checked whether the current ADC value is
+ * by SPACE_MARK_THRESHOLD greater then the held value.
+ * If it is greater, the COMM_RESULT_BIT is set to high, otherwise
+ * it is set to low.
+ * 
+ * If either the COMM_ENABLE_BIT or the COMM_SAMPLE_HOLD_BIT goes to 
+ * low the COMM_RESULT_BIT is set to low.
+ */
+
+#define DEBUG
+
 #define DEBUG_PORT P1OUT
 #define DEBUG_PORT_DIR P1DIR
 #define DEBUG_IDLE_BIT BIT7
@@ -43,9 +63,13 @@ void adcIsr(void)
         } else {
             COMM_PORT_OUT &= ~COMM_RESULT_BIT;
         }
+    } else {
+        COMM_PORT_OUT &= ~COMM_RESULT_BIT;
     }
 
+#ifdef DEBUG
     DEBUG_PORT ^= DEBUG_ADC_BIT;
+#endif // DEBUG
 }
 
 
@@ -61,8 +85,10 @@ void setup() {
     BCSCTL3 = 0;
 
     // debug port configuration, obviously
+#ifdef DEBUG    
 	DEBUG_PORT_DIR |= DEBUG_IDLE_BIT | DEBUG_ADC_BIT;
 	DEBUG_PORT &= ~(DEBUG_IDLE_BIT | DEBUG_ADC_BIT);
+#endif // DEBUG
 
     // communication
     COMM_PORT_DIR |= COMM_RESULT_BIT;
@@ -82,7 +108,9 @@ void setup() {
 
 
 void loop() {
+#ifdef DEBUG    
     DEBUG_PORT ^= DEBUG_IDLE_BIT;
+#endif // DEBUG
 }
 
 
