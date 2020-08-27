@@ -66,12 +66,12 @@ void adcIsr(void)
 
     if ((COMM_PORT_IN & COMM_ENABLE_BIT) && holdFlag) {
         if (currentValue > (holdValue + SPACE_MARK_THRESHOLD)) {
-            COMM_PORT_OUT |= COMM_RESULT_BIT;
-        } else {
             COMM_PORT_OUT &= ~COMM_RESULT_BIT;
+        } else {
+            COMM_PORT_OUT |= COMM_RESULT_BIT;
         }
     } else {
-        COMM_PORT_OUT &= ~COMM_RESULT_BIT;
+        COMM_PORT_OUT |= COMM_RESULT_BIT;
     }
 
 #ifdef DEBUG
@@ -100,7 +100,7 @@ void setup() {
     // communication
     COMM_PORT_DIR |= COMM_RESULT_BIT;
     COMM_PORT_DIR &= ~(COMM_ENABLE_BIT | COMM_SAMPLE_HOLD_BIT);
-    COMM_PORT_OUT &= COMM_RESULT_BIT;
+    COMM_PORT_OUT |= COMM_RESULT_BIT;
 
     // adc
     ADC10CTL0 = SREF1 | REFON | ADC10ON | ADC10IE | MSC;
