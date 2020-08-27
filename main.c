@@ -77,8 +77,7 @@ void writeSpi(uint32_t m) {
 
 // ISR to read and process result from adc
 __attribute__((interrupt(ADC10_VECTOR)))
-void adcIsr(void)
-{
+void adcIsr(void) {
     static uint16_t holdValue = 0;
     static bool holdFlag = false;
 
